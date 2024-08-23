@@ -1,10 +1,14 @@
 // Methods to be executed on routes 
 const stringLength = (req, res)=>{ 
-    res.send("This will check the string length"); 
+    // console.log(req)
+    text = req.body.text;
+    res.json({message:text.length}); 
+    res.end();
 } 
   
 const loginReq = (req, res)=>{ 
-    res.send("Hello, This was a post Request"); 
+    jsonBody = req.body.text;
+    res.json({message:"jsonBody"}); 
 } 
   
 // Export of all methods as object 

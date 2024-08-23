@@ -5,7 +5,7 @@ const { Route } = require('express');
 
 const router = Router();
 
-router.get('/',controller.stringLength);
-router.post('/',controller.loginReq);
+router.get('/',controller.loginReq);
+router.post('/submit',controller.stringLength);
 
 module.exports = router;
