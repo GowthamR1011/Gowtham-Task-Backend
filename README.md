@@ -12,7 +12,7 @@ The server is running only using express library. The routes have just been setu
 
 ### First run the database server
 1. In the terminal go to the root folder of this project and run the command `json-server --watch database/data.json --port 9000` to start the database server on `PORT 9000`
-
+2. If you want to start the database in a different PORT number, you can specify it in the command and update the `DATABASE_PORT` in the `.env` file accordingly.
 ### How to start the backend server
 1. With the database server running in one terminal, open another terminal to the same root folder of this project.
 2. Run the command `node index.js` to start the web server in `PORT 8000`
