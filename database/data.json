@@ -1,18 +1,25 @@
 {
   "users": [
     {
-      "averagelength": 7,
+      "averagelength": 3.3142857142857136,
       "username": "Gowtham",
-      "noofwords": 16,
+      "noofwords": 35,
       "id": "2319",
-      "password": "abc"
+      "password": "$2a$10$WCcspIHCUWAN9TwzeREwoebdEiDk8WB.p9YeCJ/oTm5KAfqezIAfO"
     },
     {
+      "id": "9ea0",
       "username": "NewUser",
-      "password": "abc",
-      "averagelength": 3,
-      "noofwords": 5,
-      "id": "b23c"
+      "password": "$2a$10$XeDqskC.9nZCZUXdQn27GeDlCgkJjKdu2YtU4rqNuwZygdTxAr8Bu",
+      "averagelength": 0,
+      "noofwords": 0
+    },
+    {
+      "id": "dc6a",
+      "username": "Newuser1",
+      "password": "$2a$10$ec6j6TZH6dVquhXUO5IvkekwcriGFj154H2q5/jSjwuSdqS69O67C",
+      "averagelength": 0,
+      "noofwords": 0
     }
   ]
 }
