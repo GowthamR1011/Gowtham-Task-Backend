@@ -1,16 +1,18 @@
 {
-    "users": [
-        {
-            "username": "Gowtham",
-            "password": "abc",
-            "averagelength": 3,
-            "noofwords":4
-        },
-        {
-            "username": "NewUser",
-            "password": "abc",
-            "averagelength": 3,
-            "noofwords":5
-        }
-    ]
+  "users": [
+    {
+      "averagelength": 7,
+      "username": "Gowtham",
+      "noofwords": 16,
+      "id": "2319",
+      "password": "abc"
+    },
+    {
+      "username": "NewUser",
+      "password": "abc",
+      "averagelength": 3,
+      "noofwords": 5,
+      "id": "b23c"
+    }
+  ]
 }
