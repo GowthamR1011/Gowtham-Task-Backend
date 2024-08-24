@@ -1,11 +1,11 @@
 const bcrypt = require("bcryptjs");
-
+const database_url = "http://localhost:"+process.env.DATABASE_PORT + "/users/"
 const loginReq = async (req, res) => {
   username = req.body.username;
   password = req.body.password;
 
   const result = await fetch(
-    "http://localhost:9000/users/?username=" + username
+    database_url + "?username=" + username
   );
   if (!result.ok) {
     res.status(404).send({ message: "User Not Found" });
@@ -43,7 +43,7 @@ const stringLength = async (req, res) => {
     username = req.body.username;
 
     const result = await fetch(
-      "http://localhost:9000/users/?username=" + username
+      database_url+ "?username=" + username
     );
     if (!result.ok) {
       return null;
@@ -60,7 +60,7 @@ const stringLength = async (req, res) => {
     newAverage = newTotal / (currentNoOfWords + 1);
 
     const postResult = await fetch(
-      "http://localhost:9000/users/" + data[0].id,
+      database_url + data[0].id,
       {
         method: "PATCH",
         body: JSON.stringify({
@@ -96,7 +96,7 @@ const signUp = async (req, res) => {
 
   bcrypt.genSalt(saltRounds, (err, salt) => {
     bcrypt.hash(password, salt, async (err, hashpassword) => {
-      const response = await fetch("http://localhost:9000/users", {
+      const response = await fetch(database_url, {
         method: "POST",
         body: JSON.stringify({
           username: username,
