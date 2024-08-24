@@ -1,86 +1,123 @@
-const users = require("../database/data.json");
+const bcrypt = require("bcryptjs");
 
+const loginReq = async (req, res) => {
+  username = req.body.username;
+  password = req.body.password;
 
-// Methods to be executed on routes 
-const stringLength = (req, res)=>{ 
-    // console.log(req)
-    text = req.body.text;
-    res.json({message:text.length}); 
-    res.end();
-} 
-  
-const loginReq = (req, res)=>{ 
+  const result = await fetch(
+    "http://localhost:9000/users/?username=" + username
+  );
+  if (!result.ok) {
+    res.status(404).send({ message: "User Not Found" });
+    return null;
+  }
+
+  const data = await result.json();
+  if (data.length == 0) {
+    res.status(404).send({ message: "User Not Found" });
+    return null;
+  }
+  bcrypt.compare(password, data[0].password, function(err, result) {
+    if (err) throw err;
+    if (result === true) {
+        res
+            .status(200)
+            .send({
+                message: "Login Successful",
+                averagelength: data[0].averagelength,
+      });
+    return null;
+    } else {
+        // Passwords do not match
+        res.status(401).send({ message: "Wrong Password" });
+        return null;
+    }
+});
+ 
+};
+
+const stringLength = async (req, res) => {
+  text = req.body.text;
+
+  if (req.body.username) {
     username = req.body.username;
-    password = req.body.password;
-    
-    // console.log(users)
-    for (const user of users.users){
-        if (user.username == username && user.password == password){
-            res.send({message:"Login Successful",averageLength:user.averagelength,code:200})
-            return
-        }
+
+    const result = await fetch(
+      "http://localhost:9000/users/?username=" + username
+    );
+    if (!result.ok) {
+      return null;
     }
-    res.send({message:"Wrong Credentials",code:-1})
-   
-} 
 
-const stringLengthWithLogin = async (req,res) =>{
+    const data = await result.json();
+    currentAverageLenth = data[0].averagelength;
+    currentNoOfWords = data[0].noofwords;
 
-    text = req.body.text;
+    currentTotal = currentAverageLenth * currentNoOfWords;
 
-    if(req.body.username){
+    newTotal = currentTotal + text.length;
 
-        username = req.body.username;
-        
+    newAverage = newTotal / (currentNoOfWords + 1);
 
+    const postResult = await fetch(
+      "http://localhost:9000/users/" + data[0].id,
+      {
+        method: "PATCH",
+        body: JSON.stringify({
+          averagelength: newAverage,
+          noofwords: currentNoOfWords + 1,
+        }),
+      }
+    );
 
-        const result = await fetch('http://localhost:9000/users/?username='+username)
-        if (!result.ok) {
-            return null;
-        }
-
-        const data = await result.json();
-        // console.log(data)
-        currentAverageLenth = data[0].averagelength;
-        currentNoOfWords = data[0].noofwords;
-
-        currentTotal = currentAverageLenth * currentNoOfWords;
-
-        newTotal = currentTotal + text.length;
-
-        newAverage = parseInt(newTotal /(currentNoOfWords + 1))
-
-
-
-
-        console.log('http://localhost:9000/users/'+data[0].id)
-        const postResult = await fetch('http://localhost:9000/users/'+data[0].id,{
-            method:'PATCH',
-            body:JSON.stringify({averagelength:newAverage,noofwords:(currentNoOfWords + 1)})
-        })
-
-        
-        if(postResult.ok){
-            res.send({message:text.length,userAverage:newAverage})
-
-        }
-        else{
-            console.log(postResult)
-            res.send({message:text.length,userAverage:newAverage,errMsg:"Database not updated"})
-        }
-        
-
-
+    if (postResult.ok) {
+      res
+        .status(200)
+        .send({ message: text.length, userAverage: newAverage });
+    } else { 
+      res
+        .status(200)
+        .send({
+          message: text.length,
+          userAverage: newAverage,
+          errMsg: "Database not updated",
+        });
     }
-else{
-    res.send({message:text.length})
-}
-    
+  } else {
+    res.status(200).send({ message: text.length });
+  }
+};
 
-}
-// Export of all methods as object 
-module.exports = { 
-    stringLength, 
-    loginReq,
-    stringLengthWithLogin
-}
+const signUp = async (req, res) => {
+  username = req.body.username;
+  password = req.body.password;
+
+  const saltRounds = 10;
+
+  bcrypt.genSalt(saltRounds, (err, salt) => {
+    bcrypt.hash(password, salt, async (err, hashpassword) => {
+      const response = await fetch("http://localhost:9000/users", {
+        method: "POST",
+        body: JSON.stringify({
+          username: username,
+          password: hashpassword,
+          averagelength: 0,
+          noofwords: 0,
+        }),
+      });
+
+      if (response.ok) {
+        res.status(201).send({ message: "New User Created Successfully" });
+        return null;
+      } else {
+        res.status(500).send({ message: "Unable to create user" });
+      }
+    });
+  });
+};
+// Export of all methods as object
+module.exports = {
+  signUp,
+  loginReq,
+  stringLength,
+};

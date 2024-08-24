@@ -6,7 +6,8 @@ const { Route } = require('express');
 const router = Router();
 
 router.post('/loginReq',controller.loginReq);
-router.post('/submit',controller.stringLengthWithLogin);
+router.post('/submit',controller.stringLength);
+router.post('/signup',controller.signUp)
 // router.post('/submit',controller.stringLength);
 // router.post('/submitWithLogin',controller.stringLengthWithLogin)
 
