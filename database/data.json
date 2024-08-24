@@ -1,0 +1,16 @@
+{
+    "users": [
+        {
+            "username": "Gowtham",
+            "password": "abc",
+            "averagelength": 3,
+            "noofwords":4
+        },
+        {
+            "username": "NewUser",
+            "password": "abc",
+            "averagelength": 3,
+            "noofwords":5
+        }
+    ]
+}
