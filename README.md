@@ -18,3 +18,8 @@ The server is running only using express library. The routes have just been setu
 2. Run the command `node index.js` to start the web server in `PORT 8000`
 
 Now the run the frontend nextjs project in development mode in the same mission. All the tasks, including bonus task, should run successfully.
+
+### To Sign Up new users
+
+1. To create new users, the backend exposes a API endpoint. But this endpoint isn't integrated with the frontend.
+![Sign UP API example with POSTMAN. Send a POST request to the URL http://127.0.0.1:8000/api/signup with the body contents as username and password](image.png)
